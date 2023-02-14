@@ -16,7 +16,7 @@ import {
 
 import { useSelector, useDispatch } from "react-redux";
 import { setPosts } from "../redux/postsSlice";
-
+//test
 const blogs = [
   {
     user: "yavuz",

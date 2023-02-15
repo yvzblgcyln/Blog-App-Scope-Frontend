@@ -2,14 +2,10 @@ import _Navbar from "@/components/_Navbar";
 import DragDrop from "@/components/DragDrop";
 import React, { useState } from "react";
 import { Button, Container, Form, FormGroup, Input, Label, Col, Row } from "reactstrap";
-import styles from "@/styles/login.module.css";
-import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { setUser } from "@/redux/userSlice";
 import RichText from "@/components/RichText";
 
 function Add() {
-  const dispatch = useDispatch();
   const [inputs, setInput] = useState({});
   const [post, setPost] = useState("");
   const handleChange = (e) => {

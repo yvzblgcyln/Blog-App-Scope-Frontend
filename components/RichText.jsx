@@ -5,7 +5,10 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 function RichText({ post, setPost }) {
   return (
-    <ReactQuill style={{ width: "100%", height: "250px", marginBottom: "70px" }} value={post} onChange={setPost} />
+    <div>
+      <ReactQuill style={{ width: "100%", height: "250px", marginBottom: "70px" }} value={post} onChange={setPost} />
+      {post}
+    </div>
   );
 }
 

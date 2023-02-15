@@ -1,4 +1,4 @@
-import _Navbar from "@/components/navbar/_Navbar";
+import _Navbar from "@/components/_Navbar";
 import React, { useState } from "react";
 import { Button, Container, Form, FormGroup, Input, Label, Col, Row } from "reactstrap";
 import styles from "@/styles/login.module.css";

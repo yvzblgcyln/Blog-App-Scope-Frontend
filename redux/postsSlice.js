@@ -9,7 +9,7 @@ export const postsSlice = createSlice({
     setPosts: (state, { payload }) => {
       for (let i = 0; i < payload.length; i++) {
         state[i] = payload[i];
-        console.log(payload[i], state[i]);
+        //console.log(payload[i], state[i]);
       }
     },
   },

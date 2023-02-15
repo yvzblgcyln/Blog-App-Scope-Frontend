@@ -70,25 +70,29 @@ export default function Home() {
   const [activePage, setActivePage] = useState(1);
 
   const posts = useSelector((state) => state.posts);
+  const filter = useSelector((state) => state.category.filter);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setPosts(blogs));
-    console.log(posts);
+    //console.log(posts);
   }, []);
 
   return (
     <Container>
-      <h1 style={{ margin: " 20px 0" }}>Blog List</h1>
+      <h1 style={{ margin: " 40px 0 20px 0", textAlign: "center" }}>Blog List{filter && <span> : {filter}</span>}</h1>
       <Row>
-        <Col xs="9">
+        <Col>
           {blogs.slice((activePage - 1) * 5, activePage * 5).map((blog, index) => (
             <Card
               key={index}
               body
               style={{
-                width: "100%",
                 marginBottom: "20px",
+                width: "60%",
+                marginTop: "20px",
+                marginLeft: "auto",
+                marginRight: "auto",
               }}
             >
               <img alt="Sample" src={blog.img} />
@@ -110,13 +114,6 @@ export default function Home() {
               </CardBody>
             </Card>
           ))}
-        </Col>
-        <Col xs="3" style={{ paddingLeft: "30px" }}>
-          <Row>Technology</Row>
-          <Row>Finance</Row>
-          <Row>Photo</Row>
-          <Row>Art</Row>
-          <Row>Sport</Row>
         </Col>
       </Row>
       <Pagination

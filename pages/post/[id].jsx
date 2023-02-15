@@ -50,6 +50,7 @@ function Post({ direction, ...args }) {
           style={{
             width: "60%",
             marginTop: "20px",
+            marginBottom: "20px",
             marginLeft: "auto",
             marginRight: "auto",
           }}
@@ -66,7 +67,7 @@ function Post({ direction, ...args }) {
               {blog.user}
             </CardSubtitle>
             <CardText>{post}</CardText>
-            <div class="d-flex justify-content-between">
+            <div className="d-flex justify-content-between">
               {isCurrentUser && <Button onClick={() => setEditMode(true)}>Edit</Button>}
               <Button color="danger" onClick={handleDelete}>
                 Delete

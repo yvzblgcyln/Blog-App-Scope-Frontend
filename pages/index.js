@@ -16,12 +16,13 @@ import {
 
 import { useSelector, useDispatch } from "react-redux";
 import { setPosts } from "../redux/postsSlice";
+import Link from "next/link";
 
 const blogs = [
   {
     user: "yavuz",
     title: "blog 1",
-    post: "Some quick example text to build on the card title and make up the bulk of the card‘s content.",
+    post: "Some quick example text to build on the card title and make up the bulk of the card‘s content. Some quick example text to build on the card title and make up the bulk of the card‘s content. Some quick example text to build on the card title and make up the bulk of the card‘s content. Some quick example text to build on the card title and make up the bulk of the card‘s content",
     img: "https://picsum.photos/300/210",
     category: "Art",
   },
@@ -79,8 +80,8 @@ export default function Home() {
   }, []);
 
   return (
-    <Container>
-      <h1 style={{ margin: " 40px 0 20px 0", textAlign: "center" }}>Blog List{filter && <span> : {filter}</span>}</h1>
+    <Container style={{ maxWidth: "700px" }}>
+      <h1 style={{ margin: " 20px", textAlign: "center" }}>Blog List{filter && <span> : {filter}</span>}</h1>
       <Row>
         <Col>
           {blogs.slice((activePage - 1) * 5, activePage * 5).map((blog, index) => (
@@ -89,10 +90,6 @@ export default function Home() {
               body
               style={{
                 marginBottom: "20px",
-                width: "60%",
-                marginTop: "20px",
-                marginLeft: "auto",
-                marginRight: "auto",
               }}
             >
               <img alt="Sample" src={blog.img} />
@@ -103,10 +100,10 @@ export default function Home() {
                     {blog.category}
                   </CardSubtitle>
                 </div>
-                <CardSubtitle className="mb-2 text-muted" tag="h6">
+                <Link className="mb-2 text-muted" href={`/user/${index}`}>
                   {blog.user}
-                </CardSubtitle>
-                <CardText>{blog.post}</CardText>
+                </Link>
+                <CardText>{blog.post.substring(0, 200)}...</CardText>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <Button href={`/post/${index}`}>Read More</Button>
                   {isAdmin && <Button color="danger">Delete</Button>}
@@ -116,36 +113,32 @@ export default function Home() {
           ))}
         </Col>
       </Row>
-      <Pagination
-        style={{
-          width: "60%",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-      >
-        <PaginationItem style={{ visibility: activePage === 1 && "hidden" }}>
-          <PaginationLink first onClick={() => setActivePage(1)} />
-        </PaginationItem>
-        <PaginationItem style={{ visibility: activePage === 1 && "hidden" }}>
-          <PaginationLink previous onClick={() => setActivePage(activePage - 1)} />
-        </PaginationItem>
-        {dummyArray.map((dummy, index) => (
-          <PaginationItem key={index}>
-            <PaginationLink
-              onClick={() => setActivePage(index + 1)}
-              style={{ color: activePage === index + 1 && "black" }}
-            >
-              {index + 1}
-            </PaginationLink>
+      <div className="d-flex flex-column justify-content-center align-items-center">
+        <Pagination>
+          <PaginationItem style={{ visibility: activePage === 1 ? "hidden" : null }}>
+            <PaginationLink first onClick={() => setActivePage(1)} />
           </PaginationItem>
-        ))}
-        <PaginationItem style={{ visibility: activePage === pageCount && "hidden" }}>
-          <PaginationLink next onClick={() => setActivePage(activePage + pageCount)} />
-        </PaginationItem>
-        <PaginationItem style={{ visibility: activePage === pageCount && "hidden" }}>
-          <PaginationLink last onClick={() => setActivePage(pageCount)} />
-        </PaginationItem>
-      </Pagination>
+          <PaginationItem style={{ visibility: activePage === 1 ? "hidden" : null }}>
+            <PaginationLink previous onClick={() => setActivePage(activePage - 1)} />
+          </PaginationItem>
+          {dummyArray.map((dummy, index) => (
+            <PaginationItem key={index}>
+              <PaginationLink
+                onClick={() => setActivePage(index + 1)}
+                style={{ color: activePage === index + 1 ? "black" : null }}
+              >
+                {index + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem style={{ visibility: activePage === pageCount ? "hidden" : null }}>
+            <PaginationLink next onClick={() => setActivePage(activePage + pageCount)} />
+          </PaginationItem>
+          <PaginationItem style={{ visibility: activePage === pageCount ? "hidden" : null }}>
+            <PaginationLink last onClick={() => setActivePage(pageCount)} />
+          </PaginationItem>
+        </Pagination>
+      </div>
     </Container>
   );
 }

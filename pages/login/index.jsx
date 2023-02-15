@@ -3,8 +3,13 @@ import React, { useState } from "react";
 import { Button, Container, Form, FormGroup, Input, Label, Col, Row } from "reactstrap";
 import styles from "@/styles/login.module.css";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/userSlice";
+import { useRouter } from "next/navigation";
 
 function Login() {
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [inputs, setInput] = useState({});
 
   const handleChange = (e) => {
@@ -12,7 +17,9 @@ function Login() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(setUser(inputs.email));
     console.log(inputs);
+    router.push("/");
   };
 
   return (

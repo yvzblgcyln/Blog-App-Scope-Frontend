@@ -1,4 +1,5 @@
 import _Navbar from "@/components/_Navbar";
+import DragDrop from "@/components/DragDrop";
 import React, { useState } from "react";
 import { Button, Container, Form, FormGroup, Input, Label, Col, Row } from "reactstrap";
 import styles from "@/styles/login.module.css";
@@ -32,7 +33,6 @@ function Add() {
                 <Input id="Title" name="Title" placeholder="Title" type="text" onChange={handleChange} />
                 <Label for="Title">Title</Label>
               </FormGroup>
-
               <textarea
                 className="p-2"
                 style={{ width: "100%", height: "250px" }}
@@ -40,7 +40,7 @@ function Add() {
                 placeholder="Post"
                 onChange={handleChange}
               />
-
+              <DragDrop />
               <Row>
                 <Col>
                   <Button>Submit</Button>

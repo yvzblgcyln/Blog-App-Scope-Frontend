@@ -6,11 +6,12 @@ import styles from "@/styles/login.module.css";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/userSlice";
+import RichText from "@/components/RichText";
 
 function Add() {
   const dispatch = useDispatch();
   const [inputs, setInput] = useState({});
-
+  const [post, setPost] = useState("");
   const handleChange = (e) => {
     e.target.value === "on"
       ? setInput({ ...inputs, [e.target.name]: e.target.id })
@@ -19,7 +20,8 @@ function Add() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(inputs);
+    let a = { ...inputs, Post: post };
+    console.log(a);
   };
 
   return (
@@ -33,13 +35,14 @@ function Add() {
                 <Input id="Title" name="Title" placeholder="Title" type="text" onChange={handleChange} />
                 <Label for="Title">Title</Label>
               </FormGroup>
-              <textarea
+              {/* <textarea
                 className="p-2"
                 style={{ width: "100%", height: "250px" }}
                 name="Post"
                 placeholder="Post"
                 onChange={handleChange}
-              />
+              /> */}
+              <RichText post={post} setPost={setPost} />
               <DragDrop />
               <Row>
                 <Col>

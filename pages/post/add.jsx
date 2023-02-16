@@ -2,7 +2,6 @@ import _Navbar from "@/components/_Navbar";
 import DragDrop from "@/components/DragDrop";
 import React, { useState } from "react";
 import { Button, Container, Form, FormGroup, Input, Label, Col, Row } from "reactstrap";
-import { useDispatch } from "react-redux";
 import RichText from "@/components/RichText";
 
 function Add() {

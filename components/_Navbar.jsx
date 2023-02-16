@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setFilter } from "../redux/categorySlice";
 import { setUser } from "@/redux/userSlice";
 import UserDropdown from "@/components/userDropdown";
+import Cookies from "js-cookie";
 
 function _Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +14,10 @@ function _Navbar() {
   const filter = useSelector((state) => state.category.filter);
   const user = useSelector((state) => state.user.active);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setUser(Cookies.get("user") || ""));
+  }, []);
 
   useEffect(() => {}, [filter]);
 

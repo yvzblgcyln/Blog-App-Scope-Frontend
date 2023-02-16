@@ -3,6 +3,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/userSlice";
+import Cookies from "js-cookie";
 
 function UserDropdown({ user, direction, ...args }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -10,6 +11,7 @@ function UserDropdown({ user, direction, ...args }) {
 
   const dispatch = useDispatch();
   const handleLogout = () => {
+    Cookies.remove("user");
     dispatch(setUser(""));
   };
 

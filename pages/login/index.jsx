@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/userSlice";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 function Login() {
   const dispatch = useDispatch();
@@ -17,9 +18,11 @@ function Login() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(setUser(inputs.email));
+    Cookies.set("user", inputs.email);
+
+    dispatch(setUser(Cookies.get("user")));
     console.log(inputs);
-    router.push("/");
+    //router.push("/");
   };
 
   return (

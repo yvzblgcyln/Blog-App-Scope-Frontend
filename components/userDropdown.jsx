@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/userSlice";
 import Cookies from "js-cookie";
+import Link from "next/link";
 
 function UserDropdown({ user, direction, ...args }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -20,7 +21,12 @@ function UserDropdown({ user, direction, ...args }) {
       <Dropdown isOpen={dropdownOpen} toggle={toggle} direction={direction}>
         <DropdownToggle caret>{user}</DropdownToggle>
         <DropdownMenu {...args}>
-          <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
+          <Link href="/user/1">
+            <DropdownItem style={{ marginTop: "-25px" }}>Profile</DropdownItem>
+          </Link>
+          <Link href="/" onClick={handleLogout}>
+            <DropdownItem style={{ marginTop: "-25px", marginBottom: "-25px" }}>Logout</DropdownItem>
+          </Link>
         </DropdownMenu>
       </Dropdown>
     </div>

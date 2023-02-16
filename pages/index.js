@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Container, Col, Row, Card, CardBody, CardTitle, CardSubtitle, CardText, Button } from "reactstrap";
+import { Container, Col, Row } from "reactstrap";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setPosts } from "../redux/postsSlice";
-import Link from "next/link";
 import Page from "@/components/Page";
+import PostCard from "@/components/PostCard";
 
 const blogs = [
   {
@@ -52,8 +52,6 @@ const blogs = [
 ];
 
 export default function Home() {
-  const isAdmin = true;
-
   const [activePage, setActivePage] = useState(1);
   let pageCount = Math.ceil(blogs.length / 5);
 
@@ -72,31 +70,9 @@ export default function Home() {
       <Row>
         <Col>
           {blogs.slice((activePage - 1) * 5, activePage * 5).map((blog, index) => (
-            <Card
-              key={index}
-              body
-              style={{
-                marginBottom: "20px",
-              }}
-            >
-              <img alt="Sample" src={blog.img} />
-              <CardBody>
-                <div className="d-flex justify-content-between">
-                  <CardTitle tag="h5">{blog.title}</CardTitle>{" "}
-                  <CardSubtitle className="mb-2 text-muted" tag="h6">
-                    {blog.category}
-                  </CardSubtitle>
-                </div>
-                <Link className="mb-2 text-muted" href={`/user/${index}`}>
-                  {blog.user}
-                </Link>
-                <CardText>{blog.post.substring(0, 200)}...</CardText>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                  <Button href={`/post/${index}`}>Read More</Button>
-                  {isAdmin && <Button color="danger">Delete</Button>}
-                </div>
-              </CardBody>
-            </Card>
+            <div key={index}>
+              <PostCard index={index} blog={blog} isHome={true} />
+            </div>
           ))}
         </Col>
       </Row>

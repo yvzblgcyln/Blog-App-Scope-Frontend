@@ -12,6 +12,7 @@ import {
   DropdownToggle,
 } from "reactstrap";
 import styles from "@/styles/post.module.css";
+import PostCard from "@/components/PostCard";
 
 const blog = {
   user: "yavuz",
@@ -45,36 +46,7 @@ function Post({ direction, ...args }) {
   return (
     <div className={styles.post}>
       {!editMode ? (
-        <Card
-          body
-          style={{
-            width: "60%",
-            marginTop: "20px",
-            marginBottom: "20px",
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        >
-          <img alt="Sample" src={blog.img} />
-          <CardBody>
-            <div className="d-flex justify-content-between">
-              <CardTitle tag="h5">{title}</CardTitle>
-              <CardSubtitle className="mb-2 text-muted" tag="h6">
-                {category}
-              </CardSubtitle>
-            </div>
-            <CardSubtitle className="mb-2 text-muted" tag="h6">
-              {blog.user}
-            </CardSubtitle>
-            <CardText>{post}</CardText>
-            <div className="d-flex justify-content-between">
-              {isCurrentUser && <Button onClick={() => setEditMode(true)}>Edit</Button>}
-              <Button color="danger" onClick={handleDelete}>
-                Delete
-              </Button>
-            </div>
-          </CardBody>
-        </Card>
+        <PostCard blog={blog} isHome={false} editMode={editMode} setEditMode={setEditMode} />
       ) : (
         <Card
           body

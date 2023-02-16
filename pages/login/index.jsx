@@ -19,10 +19,9 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     Cookies.set("user", inputs.email);
-
     dispatch(setUser(Cookies.get("user")));
+    router.push("/");
     console.log(inputs);
-    //router.push("/");
   };
 
   return (

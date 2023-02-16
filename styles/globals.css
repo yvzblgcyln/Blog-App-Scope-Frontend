@@ -16,3 +16,10 @@ body {
   text-decoration: none;
   margin: 0 10px;
 }
+.postImg {
+  width: 95%;
+  border-radius: 5px;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  align-self: center;
+}

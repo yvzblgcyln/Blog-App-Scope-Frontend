@@ -19,7 +19,7 @@ function PostCard({ index, blog, isHome, setEditMode }) {
         marginRight: !isHome ? "auto" : "0",
       }}
     >
-      <img alt="Sample" src={blog.img} />
+      <img alt="Sample" src={blog.img} className="postImg" />
       <CardBody>
         <div className="d-flex justify-content-between">
           <CardTitle tag="h5">{blog.title}</CardTitle>

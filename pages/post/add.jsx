@@ -3,10 +3,15 @@ import DragDrop from "@/components/DragDrop";
 import React, { useState } from "react";
 import { Button, Container, Form, FormGroup, Input, Label, Col, Row } from "reactstrap";
 import RichText from "@/components/RichText";
+import { useDispatch, useSelector } from "react-redux";
+import { addPost } from "@/redux/postsSlice";
 
 function Add() {
   const [inputs, setInput] = useState({});
   const [post, setPost] = useState("");
+  const [img, setImg] = useState();
+  const dispatch = useDispatch();
+
   const handleChange = (e) => {
     e.target.value === "on"
       ? setInput({ ...inputs, [e.target.name]: e.target.id })
@@ -15,8 +20,19 @@ function Add() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let a = { ...inputs, Post: post };
-    console.log(a);
+    let postForm = { ...inputs, Body: post, Picture: img };
+    dispatch(addPost(postForm));
+
+    console.log(postForm);
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/addPost`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify(),
+    })
+      .then((res) => res.json(postForm))
+      .then((data) => router.push("/"));
   };
 
   return (
@@ -38,7 +54,10 @@ function Add() {
                 onChange={handleChange}
               /> */}
               <RichText post={post} setPost={setPost} />
-              <DragDrop />
+              <span>Upload an header image</span>
+              <div style={{ margin: "10px 0 20px 4px" }}>
+                <DragDrop setImg={setImg} />
+              </div>
               <Row>
                 <Col>
                   <Button>Submit</Button>
@@ -49,31 +68,31 @@ function Add() {
           <Col xs="3">
             <h3>Category</h3>
             <div className="form-check">
-              <input className="form-check-input" type="radio" name="Cat" id="Technology" onChange={handleChange} />
+              <input className="form-check-input" type="radio" name="CategoryId" id="1" onChange={handleChange} />
               <label className="form-check-label" htmlFor="Technology">
                 Technology
               </label>
             </div>
             <div className="form-check">
-              <input className="form-check-input" type="radio" name="Cat" id="Finance" onChange={handleChange} />
+              <input className="form-check-input" type="radio" name="CategoryId" id="2" onChange={handleChange} />
               <label className="form-check-label" htmlFor="Finance">
                 Finance
               </label>
             </div>
             <div className="form-check">
-              <input className="form-check-input" type="radio" name="Cat" id="Photo" onChange={handleChange} />
+              <input className="form-check-input" type="radio" name="CategoryId" id="3" onChange={handleChange} />
               <label className="form-check-label" htmlFor="Photo">
                 Photo
               </label>
             </div>
             <div className="form-check">
-              <input className="form-check-input" type="radio" name="Cat" id="Art" onChange={handleChange} />
+              <input className="form-check-input" type="radio" name="CategoryId" id="4" onChange={handleChange} />
               <label className="form-check-label" htmlFor="Art">
                 Art
               </label>
             </div>
             <div className="form-check">
-              <input className="form-check-input" type="radio" name="Cat" id="Sport" onChange={handleChange} />
+              <input className="form-check-input" type="radio" name="CategoryId" id="5" onChange={handleChange} />
               <label className="form-check-label" htmlFor="Sport">
                 Sport
               </label>

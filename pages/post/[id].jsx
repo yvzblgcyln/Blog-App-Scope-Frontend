@@ -13,6 +13,9 @@ import {
 } from "reactstrap";
 import styles from "@/styles/post.module.css";
 import PostCard from "@/components/PostCard";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { removePost, updatePost } from "@/redux/postsSlice";
 
 const blog = {
   user: "yavuz",
@@ -23,6 +26,10 @@ const blog = {
 };
 
 function Post({ direction, ...args }) {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { id } = router.query;
+
   const isAdmin = true;
   const isCurrentUser = true;
   const [editMode, setEditMode] = useState(false);
@@ -36,11 +43,15 @@ function Post({ direction, ...args }) {
 
   const handlePost = () => {
     let updatedPost = { category, title, post };
+    dispatch(updatePost(id, updatedPost));
     console.log(updatedPost);
     setEditMode(false);
   };
+
   const handleDelete = () => {
     console.log("deleted");
+    dispatch(removePost(id));
+    router.push("/");
   };
 
   return (
@@ -57,7 +68,7 @@ function Post({ direction, ...args }) {
             marginRight: "auto",
           }}
         >
-          <img alt="Sample" src={blog.img} />
+          <img alt="Sample" src={blog.img} className="postImg" />
           <CardBody>
             <div className="d-flex justify-content-between">
               <CardTitle tag="h5">

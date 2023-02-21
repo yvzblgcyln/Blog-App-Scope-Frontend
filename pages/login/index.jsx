@@ -16,12 +16,23 @@ function Login() {
   const handleChange = (e) => {
     setInput({ ...inputs, [e.target.name]: e.target.value });
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     Cookies.set("user", inputs.email);
     dispatch(setUser(Cookies.get("user")));
     router.push("/");
     console.log(inputs);
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify(),
+    })
+      .then((res) => res.json(inputs))
+      .then((data) => router.push("/"));
   };
 
   return (

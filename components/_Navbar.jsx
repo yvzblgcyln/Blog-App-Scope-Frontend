@@ -7,7 +7,16 @@ import { setUser } from "@/redux/userSlice";
 import UserDropdown from "@/components/userDropdown";
 import Cookies from "js-cookie";
 
-function _Navbar() {
+export const getStaticProps = async () => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getCategories`);
+  const data = await res.json();
+  console.log(data);
+  return {
+    props: { category: data },
+  };
+};
+
+function _Navbar({ category }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
@@ -29,19 +38,19 @@ function _Navbar() {
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>
         <Nav className="ml-auto" navbar>
-          <Link href="/" onClick={() => dispatch(setFilter("Technology"))}>
+          <Link href="/?cat=technology" onClick={() => dispatch(setFilter("Technology"))}>
             Technology
           </Link>
-          <Link href="/" onClick={() => dispatch(setFilter("Finance"))}>
+          <Link href="/?cat=finance" onClick={() => dispatch(setFilter("Finance"))}>
             Finance
           </Link>
-          <Link href="/" onClick={() => dispatch(setFilter("Photo"))}>
+          <Link href="/?cat=photo" onClick={() => dispatch(setFilter("Photo"))}>
             Photo
           </Link>
-          <Link href="/" onClick={() => dispatch(setFilter("Art"))}>
+          <Link href="/?cat=art" onClick={() => dispatch(setFilter("Art"))}>
             Art
           </Link>
-          <Link href="/" onClick={() => dispatch(setFilter("Sport"))}>
+          <Link href="/?cat=sport" onClick={() => dispatch(setFilter("Sport"))}>
             Sport
           </Link>
         </Nav>
@@ -52,7 +61,7 @@ function _Navbar() {
         )}
       </Collapse>
 
-      {user ? <UserDropdown user={user} /> : <Link href="login">Login</Link>}
+      {user ? <UserDropdown user={user} /> : <Link href="/login">Login</Link>}
     </Navbar>
   );
 }

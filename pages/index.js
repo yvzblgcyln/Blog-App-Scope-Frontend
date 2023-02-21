@@ -55,13 +55,12 @@ export default function Home() {
   const [activePage, setActivePage] = useState(1);
   let pageCount = Math.ceil(blogs.length / 5);
 
-  const posts = useSelector((state) => state.posts);
+  const posts = useSelector((state) => state.posts.posts);
   const filter = useSelector((state) => state.category.filter);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setPosts(blogs));
-    //console.log(posts);
   }, []);
 
   return (
@@ -69,11 +68,12 @@ export default function Home() {
       <h1 style={{ margin: " 20px", textAlign: "center" }}>Blog List{filter && <span> : {filter}</span>}</h1>
       <Row>
         <Col>
-          {blogs.slice((activePage - 1) * 5, activePage * 5).map((blog, index) => (
-            <div key={index}>
-              <PostCard index={index} blog={blog} isHome={true} />
-            </div>
-          ))}
+          {posts &&
+            posts.slice((activePage - 1) * 5, activePage * 5).map((blog, index) => (
+              <div key={index}>
+                <PostCard index={index} blog={blog} isHome={true} />
+              </div>
+            ))}
         </Col>
       </Row>
       <Page activePage={activePage} setActivePage={setActivePage} pageCount={pageCount} />

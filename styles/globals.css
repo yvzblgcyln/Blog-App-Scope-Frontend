@@ -23,3 +23,13 @@ body {
   object-fit: cover;
   align-self: center;
 }
+.messageText {
+  color: red;
+  font-weight: 600;
+  margin: 10px 0;
+}
+.userLink {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: none;
+}

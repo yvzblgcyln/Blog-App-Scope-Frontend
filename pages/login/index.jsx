@@ -4,7 +4,7 @@ import { Button, Container, Form, FormGroup, Input, Label, Col, Row } from "reac
 import styles from "@/styles/login.module.css";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { setUser } from "@/redux/userSlice";
+import { setAccessToken, setUser } from "@/redux/userSlice";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
@@ -24,15 +24,21 @@ function Login() {
     router.push("/");
     console.log(inputs);
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify(),
-    })
-      .then((res) => res.json(inputs))
-      .then((data) => router.push("/"));
+    // fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-type": "application/json; charset=UTF-8",
+    //   },
+    //   body: JSON.stringify(),
+    // })
+    //   .then((res) => res.json(inputs))
+    //   .then((data) => router.push("/"));
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`)
+      .then((res) => res.json())
+      .then((data) => console.log(data) && dispatch(setAccessToken(data.Data)))
+      .catch((error) => {
+        console.log("error", error);
+      });
   };
 
   return (

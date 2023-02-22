@@ -5,12 +5,15 @@ import { Button, Container, Form, FormGroup, Input, Label, Col, Row } from "reac
 import RichText from "@/components/RichText";
 import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "@/redux/postsSlice";
+import { useRouter } from "next/router";
 
 function Add() {
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [inputs, setInput] = useState({});
   const [post, setPost] = useState("");
   const [img, setImg] = useState();
-  const dispatch = useDispatch();
+  const accessToken = useSelector((state) => state.user.accessToken);
 
   const handleChange = (e) => {
     e.target.value === "on"
@@ -20,19 +23,21 @@ function Add() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let postForm = { ...inputs, Body: post, Picture: img };
+    const formData = new FormData();
+    formData.append("Picture", img);
+    let postForm = { ...inputs, Body: post, Picture: formData };
     dispatch(addPost(postForm));
-
     console.log(postForm);
+
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/addPost`, {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
+        "x-access-token": accessToken,
       },
-      body: JSON.stringify(),
-    })
-      .then((res) => res.json(postForm))
-      .then((data) => router.push("/"));
+      body: JSON.stringify(postForm),
+    }).then((res) => res.json());
+    //.then((data) => router.push("/"));
   };
 
   return (

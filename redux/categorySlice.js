@@ -4,6 +4,7 @@ export const categorySlice = createSlice({
   name: "category",
   initialState: {
     filter: "",
+    categories: ["Technology", "Finance", "Photo", "Art", "Sport"],
   },
   reducers: {
     setFilter: (state, action) => {

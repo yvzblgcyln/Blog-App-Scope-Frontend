@@ -38,19 +38,19 @@ function _Navbar({ category }) {
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>
         <Nav className="ml-auto" navbar>
-          <Link href="/?cat=technology" onClick={() => dispatch(setFilter("Technology"))}>
+          <Link href="/?cat=technology" onClick={() => dispatch(setFilter(1))}>
             Technology
           </Link>
-          <Link href="/?cat=finance" onClick={() => dispatch(setFilter("Finance"))}>
+          <Link href="/?cat=finance" onClick={() => dispatch(setFilter(2))}>
             Finance
           </Link>
-          <Link href="/?cat=photo" onClick={() => dispatch(setFilter("Photo"))}>
+          <Link href="/?cat=photo" onClick={() => dispatch(setFilter(3))}>
             Photo
           </Link>
-          <Link href="/?cat=art" onClick={() => dispatch(setFilter("Art"))}>
+          <Link href="/?cat=art" onClick={() => dispatch(setFilter(4))}>
             Art
           </Link>
-          <Link href="/?cat=sport" onClick={() => dispatch(setFilter("Sport"))}>
+          <Link href="/?cat=sport" onClick={() => dispatch(setFilter(5))}>
             Sport
           </Link>
         </Nav>

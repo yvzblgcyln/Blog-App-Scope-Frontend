@@ -15,6 +15,7 @@ function DragDrop({ setImg }) {
     const file = event.target.files[0];
     const fileName = file.name;
     console.log("Selected file name:", fileName);
+    console.log(file);
   }
 
   return (

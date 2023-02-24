@@ -19,26 +19,21 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Cookies.set("user", inputs.email);
+    Cookies.set("user", inputs.username);
     dispatch(setUser(Cookies.get("user")));
-    router.push("/");
-    console.log(inputs);
+    const encodedString = "basic " + btoa(inputs.username + ":" + inputs.password);
 
-    // fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-type": "application/json; charset=UTF-8",
-    //   },
-    //   body: JSON.stringify(),
-    // })
-    //   .then((res) => res.json(inputs))
-    //   .then((data) => router.push("/"));
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+      headers: {
+        Authorization: encodedString,
+      },
+    })
       .then((res) => res.json())
-      .then((data) => console.log(data) && dispatch(setAccessToken(data.Data)))
+      .then((data) => dispatch(setAccessToken(data.Data)))
       .catch((error) => {
         console.log("error", error);
       });
+    router.push("/");
   };
 
   return (
@@ -46,8 +41,8 @@ function Login() {
       <h2>Sign In</h2>
       <Form onSubmit={handleSubmit}>
         <FormGroup floating>
-          <Input id="Email" name="email" placeholder="Email" type="email" onChange={handleChange} />
-          <Label for="Email">Email</Label>
+          <Input id="Username" name="username" placeholder="Username" type="text" onChange={handleChange} />
+          <Label for="Username">Email</Label>
         </FormGroup>
         <FormGroup floating>
           <Input id="Password" name="password" placeholder="Password" type="password" onChange={handleChange} />

@@ -25,6 +25,7 @@ function Add() {
     e.preventDefault();
     const formData = new FormData();
     formData.append("Picture", img);
+    console.log(img);
     let postForm = { ...inputs, Body: post, Picture: formData };
     dispatch(addPost(postForm));
     console.log(postForm);

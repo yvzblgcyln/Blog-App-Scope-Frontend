@@ -2,6 +2,7 @@ import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 
 function Page({ activePage, setActivePage, pageCount }) {
   let dummyArray = Array(pageCount).fill(0);
+
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
       <Pagination>

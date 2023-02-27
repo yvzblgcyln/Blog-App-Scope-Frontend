@@ -17,23 +17,26 @@ function Login() {
     setInput({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     Cookies.set("user", inputs.username);
     dispatch(setUser(Cookies.get("user")));
     const encodedString = "basic " + btoa(inputs.username + ":" + inputs.password);
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
       headers: {
         Authorization: encodedString,
       },
     })
       .then((res) => res.json())
-      .then((data) => dispatch(setAccessToken(data.Data)))
       .catch((error) => {
         console.log("error", error);
       });
-    router.push("/");
+    if (data) {
+      console.log(data);
+      dispatch(setAccessToken(data.Data));
+      router.push("/");
+    }
   };
 
   return (

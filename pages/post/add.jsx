@@ -8,12 +8,13 @@ import { addPost } from "@/redux/postsSlice";
 import { useRouter } from "next/router";
 
 function Add() {
+  const accessToken = useSelector((state) => state.user.accessToken);
   const dispatch = useDispatch();
   const router = useRouter();
+
   const [inputs, setInput] = useState({});
   const [post, setPost] = useState("");
   const [img, setImg] = useState();
-  const accessToken = useSelector((state) => state.user.accessToken);
 
   const handleChange = (e) => {
     e.target.value === "on"
@@ -23,22 +24,22 @@ function Add() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("Picture", img);
-    console.log(formData);
-    console.log(img);
-    let postForm = { ...inputs, Body: post, Picture: formData };
-    dispatch(addPost(postForm));
-    console.log(postForm);
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/addPost`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        "x-access-token": accessToken,
-      },
-      body: JSON.stringify(postForm),
-    }).then((res) => res.json());
+    const formData = new FormData();
+    let postForm = { ...inputs, Body: post, file: img };
+    console.log(postForm);
+    formData.append('data', JSON.stringify(postForm))
+
+    dispatch(addPost(postForm));
+
+     fetch(`${process.env.NEXT_PUBLIC_API_URL}/addPost`, {
+       method: "POST",
+       headers: {
+         'Content-Type': 'multipart/form-data',
+         "x-access-token": accessToken,
+       },
+       body: JSON.stringify(formData),
+     }).then((res) => res.json());
     //.then((data) => router.push("/"));
   };
 
@@ -53,13 +54,6 @@ function Add() {
                 <Input id="Title" name="Title" placeholder="Title" type="text" onChange={handleChange} />
                 <Label for="Title">Title</Label>
               </FormGroup>
-              {/* <textarea
-                className="p-2"
-                style={{ width: "100%", height: "250px" }}
-                name="Post"
-                placeholder="Post"
-                onChange={handleChange}
-              /> */}
               <RichText post={post} setPost={setPost} />
               <span>Upload an header image</span>
               <div style={{ margin: "10px 0 20px 4px" }}>

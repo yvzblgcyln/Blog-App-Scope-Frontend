@@ -5,7 +5,7 @@ export const userSlice = createSlice({
   initialState: {
     active: "",
     accessToken:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwiZXhwIjoxNjc3MjQ1MzkwfQ.0UQnysfiT9Gj_QOG9GZ3DgEOx5VsMaGLL3IdyQFeb3Y",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwiZXhwIjoxNjc3NTAxMzI0fQ.UjmONN2Tl9TDllFL85om-ndsZC4jWEoW7wngfMBiYsE",
   },
   reducers: {
     setUser: (state, action) => {

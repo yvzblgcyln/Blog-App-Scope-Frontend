@@ -17,8 +17,9 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsPosting(true);
-    let registerForm = { ...inputs, Profile_Picture: img };
+    let registerForm = { ...inputs, file: img };
     console.log(registerForm);
+
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
       method: "POST",
       headers: {
@@ -27,7 +28,8 @@ function Register() {
       body: JSON.stringify(),
     })
       .then((res) => res.json(registerForm))
-      .then((data) => setIsPosting(false) && router.push("/login"));
+      // .then((data) => setIsPosting(false) && router.push("/login"));
+      .then((data) => setIsPosting(false));
   };
 
   return (
@@ -61,7 +63,7 @@ function Register() {
 
         <div className="messageText">{message}</div>
         <Row>
-          <Col>{!isPosting ? <Button>Submit</Button> : <Button disabled>Submit</Button>}</Col>
+          <Col>{isPosting ? <Button>Submit</Button> : <Button disabled>Submit</Button>}</Col>
           <Col>
             <Link href="login">Login</Link>
           </Col>

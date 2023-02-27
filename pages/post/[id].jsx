@@ -17,14 +17,6 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { removePost, updatePost } from "@/redux/postsSlice";
 
-// const blog = {
-//   UserId: "yavuz",
-//   Title: "blog 1",
-//   Body: "Some quick example text to build on the card title and make up the bulk of the card‘s content.Some quick example text to build on the card title and make up the bulk of the card‘s content.Some quick example text to build on the card title and make up the bulk of the card‘s content.Some quick example text to build on the card title and make up the bulk of the card‘s content.Some quick example text to build on the card title and make up the bulk of the card‘s content.",
-//   CategoryId: "Art",
-//   Picture: "https://picsum.photos/300/200",
-// };
-
 // export const getStaticPaths = async () => {
 //   const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`, {
 //     method: "GET",
@@ -69,7 +61,7 @@ function Post({ fetchedPost, direction, ...args }) {
 
   const getData = async () => {
     const { id } = router.query;
-    const data = await fetch(`http://127.0.0.1:5000/post/${id}`, {
+    const data = await fetch(`http://127.0.0.1:5000//get_post/${id}`, {
       method: "GET",
       headers: { "x-access-token": accessToken },
     })

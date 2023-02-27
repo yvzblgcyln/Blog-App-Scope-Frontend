@@ -1,23 +1,18 @@
 import { Card, CardBody, CardTitle, CardSubtitle, CardText, Button } from "reactstrap";
 import Link from "next/link";
-import { removePost } from "@/redux/postsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import parse from "html-react-parser";
+import Buttons from "./Buttons";
 
 function PostCard({ index, blog, isHome, setEditMode }) {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const isAdmin = false;
-  const isCurrentUser = false;
+  const isCurrentUser = true;
+  const isAdmin = true;
+  const accessToken = useSelector((state) => state.user.accessToken);
   const categories = useSelector((state) => state.category.categories);
-
-  const handleDelete = (index) => {
-    console.log("deleted");
-    dispatch(removePost(index));
-    router.push("/");
-  };
 
   return (
     <>
@@ -45,15 +40,7 @@ function PostCard({ index, blog, isHome, setEditMode }) {
               UserId: {blog.UserId}
             </Link>
             <CardText>{parse(blog.Body)}</CardText>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              {isHome && <Link href={`/post/${blog.Id}`}>Read More</Link>}
-              {isCurrentUser && !isHome && <Button onClick={() => setEditMode(true)}>Edit</Button>}
-              {isAdmin && (
-                <Button color="danger" onClick={() => handleDelete(index)}>
-                  Delete
-                </Button>
-              )}
-            </div>
+            <Buttons isHome={isHome} isCurrentUser={isCurrentUser} isAdmin={isAdmin} blogId={blog.id} index={index} />
           </CardBody>
         </Card>
       )}

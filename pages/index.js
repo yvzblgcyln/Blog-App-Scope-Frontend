@@ -17,7 +17,7 @@ export default function Home() {
 
   useEffect(() => {
     let url = categoryId
-      ? `${process.env.NEXT_PUBLIC_API_URL}/get_by_category_id/${categoryId}`
+      ? `${process.env.NEXT_PUBLIC_API_URL}/get_posts_by_category_id/${categoryId}`
       : `${process.env.NEXT_PUBLIC_API_URL}/getPosts`;
     let test = { url, accessToken };
     dispatch(fetchData(test));

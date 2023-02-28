@@ -1,21 +1,17 @@
 import _Navbar from "@/components/_Navbar";
-import DragDrop from "@/components/DragDrop";
 import React, { useState } from "react";
 import { Button, Container, Form, FormGroup, Input, Label, Col, Row } from "reactstrap";
 import RichText from "@/components/RichText";
 import { useDispatch, useSelector } from "react-redux";
-import { addPost } from "@/redux/postsSlice";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 
 function Add() {
   const accessToken = useSelector((state) => state.user.accessToken);
-  const dispatch = useDispatch();
   const router = useRouter();
 
   const [inputs, setInput] = useState({});
   const [post, setPost] = useState("");
-  const [img, setImg] = useState();
 
   const handleChange = (e) => {
     e.target.value === "on"
@@ -23,25 +19,6 @@ function Add() {
       : setInput({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   let postForm = { ...inputs, Body: post, file: img };
-  //   //dispatch(addPost(postForm));
-
-  //   const formData = new FormData();
-  //   formData.append("file", img);
-  //   formData.append("Body", post);
-  //   formData.append("CategoryId", inputs.CategoryId);
-  //   formData.append("Title", inputs.Title);
-
-  //   fetch(`${process.env.NEXT_PUBLIC_API_URL}/addPost`, {
-  //     method: "POST",
-  //     headers: { "x-access-token": accessToken },
-  //     body: formData,
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => router.push("/"));
-  // };
   const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
     const formData = new FormData();

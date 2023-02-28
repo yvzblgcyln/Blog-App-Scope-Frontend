@@ -21,24 +21,6 @@ function Register() {
     setInput({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  // const onSubmit = async (data) => {
-  //   setIsPosting(true);
-  //   const formData = new FormData();
-  //   console.log(data.file[0]);
-  //   //let registerForm = { ...inputs, file: img };
-  //   //console.log(registerForm);
-
-  //   fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-type": "application/json; charset=UTF-8",
-  //     },
-  //     body: JSON.stringify(),
-  //   })
-  //     .then((res) => res.json(registerForm))
-  //     // .then((data) => setIsPosting(false) && router.push("/login"));
-  //     .then((data) => setIsPosting(false));
-  // };
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("file", data.file[0]);
@@ -85,7 +67,7 @@ function Register() {
         <input type="file" {...register("file")} />
         {message && <div className="messageText">{message}</div>}
         <Row className="m-4">
-          <Col>{isPosting ? <Button>Submit</Button> : <Button disabled>Submit</Button>}</Col>
+          <Col>{!isPosting ? <Button>Submit</Button> : <Button disabled>Submit</Button>}</Col>
           {/* <Col>{<Button>Submit</Button>}</Col> */}
           <Col>
             <Link href="login">Login</Link>

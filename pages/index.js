@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Container, Col, Row } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchData, setPosts } from "../redux/postsSlice";
+import { fetchData } from "../redux/postsSlice";
 import Page from "@/components/Page";
 import PostCard from "@/components/PostCard";
 

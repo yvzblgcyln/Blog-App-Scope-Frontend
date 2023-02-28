@@ -6,18 +6,19 @@ import {
   CardSubtitle,
   CardText,
   CardTitle,
+  Col,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
   Label,
+  Row,
 } from "reactstrap";
 import styles from "@/styles/post.module.css";
 import PostCard from "@/components/PostCard";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { removePost, updatePost } from "@/redux/postsSlice";
-import parse from "html-react-parser";
+import { removePost } from "@/redux/postsSlice";
 import RichText from "@/components/RichText";
 import { useForm } from "react-hook-form";
 
@@ -52,11 +53,14 @@ import { useForm } from "react-hook-form";
 function Post({ fetchedPost, direction, ...args }) {
   const dispatch = useDispatch();
   const router = useRouter();
+  const { id } = router.query;
+  const { asPath } = useRouter();
+  let pageId = id || asPath.split("/")[2];
   const { register, handleSubmit } = useForm();
 
   const accessToken = useSelector((state) => state.user.accessToken);
   const { categories } = useSelector((state) => state.category);
-  const { postIndex, postId } = useSelector((state) => state.posts);
+  const { postIndex } = useSelector((state) => state.posts);
 
   const isAdmin = true;
   const isCurrentUser = true;
@@ -73,9 +77,7 @@ function Post({ fetchedPost, direction, ...args }) {
   }, []);
 
   const getData = async () => {
-    const { id } = router.query;
-    console.log(postId, postIndex);
-    const data = await fetch(`http://127.0.0.1:5000//get_post/${id}`, {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/get_post/${pageId}`, {
       method: "GET",
       headers: { "x-access-token": accessToken },
     })
@@ -92,25 +94,18 @@ function Post({ fetchedPost, direction, ...args }) {
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("file", data.file[0] || blog.Picture);
+    // formData.append("file", data.file[0]);
     formData.append("Body", post);
     formData.append("Title", title);
     formData.append("CategoryId", category);
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post/update`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post/update/${pageId}`, {
       method: "POST",
       headers: { "x-access-token": accessToken },
       body: formData,
     }).then((res) => res.json());
     res.MessageCode === "200" && router.push("/");
-    console.log(res);
   };
-
-  // const handlePost = () => {
-  //   let updatedPost = { category, title, post };
-  //   dispatch(updatePost(postIndex, updatedPost));
-  //   setEditMode(false);
-  //   console.log(blog);
-  // };
 
   const handleDelete = () => {
     console.log("deleted");
@@ -134,8 +129,16 @@ function Post({ fetchedPost, direction, ...args }) {
             marginRight: "auto",
           }}
         >
-          <h2>Edit post</h2>
-          <img alt="Sample" src={blog.Picture} className="postImg" style={{ width: "150px" }} />
+          <h2 style={{ textAlign: "center", marginBottom: "50px" }}>Edit post</h2>
+          <Row>
+            <Col>
+              <img alt="Sample" src={blog.Picture} className="postImg" style={{ marginLeft: "15px" }} />
+            </Col>
+            <Col>
+              <Label>Change Picture</Label>
+              <input type="file" {...register("file")} style={{ marginBottom: "15px" }} />
+            </Col>
+          </Row>
           <CardBody>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="d-flex justify-content-between">
@@ -164,8 +167,7 @@ function Post({ fetchedPost, direction, ...args }) {
                 <RichText post={post} setPost={setPost} />
                 {/* <textarea className={styles.textarea} value={post} onChange={(e) => setPost(e.target.value)}></textarea> */}
               </CardText>
-              <Label>Change Profile Picture</Label>
-              <input type="file" {...register("file")} style={{ marginBottom: "15px" }} />
+
               <div className="d-flex justify-content-between">
                 {isCurrentUser && (
                   // <Button type="submit" onClick={handlePost}>

@@ -33,9 +33,9 @@ function _Navbar({ category }) {
 
   return (
     <Navbar className="navbar" color="light" light expand="md">
-      <NavbarBrand href="/" onClick={() => dispatch(setFilter(""))}>
+      <Link href="/" onClick={() => dispatch(setFilter(""))}>
         Blog
-      </NavbarBrand>
+      </Link>
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>
         <Nav className="ml-auto" navbar>

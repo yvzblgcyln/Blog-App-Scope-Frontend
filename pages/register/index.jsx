@@ -4,38 +4,60 @@ import { Button, Container, Form, FormGroup, Input, Label, Col, Row } from "reac
 import styles from "@/styles/login.module.css";
 import Link from "next/link";
 import DragDrop from "@/components/DragDrop";
+import { useForm } from "react-hook-form";
+import { FileUploader } from "react-drag-drop-files";
+import { useRouter } from "next/router";
 
 function Register() {
+  const { register, handleSubmit } = useForm();
+  const router = useRouter();
+
   const [inputs, setInput] = useState({});
   const [isPosting, setIsPosting] = useState(false);
-  const [message, setMessage] = useState("test failed message");
+  const [message, setMessage] = useState("");
   const [img, setImg] = useState();
+
   const handleChange = (e) => {
     setInput({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsPosting(true);
-    let registerForm = { ...inputs, file: img };
-    console.log(registerForm);
+  // const onSubmit = async (data) => {
+  //   setIsPosting(true);
+  //   const formData = new FormData();
+  //   console.log(data.file[0]);
+  //   //let registerForm = { ...inputs, file: img };
+  //   //console.log(registerForm);
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
+  //   fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-type": "application/json; charset=UTF-8",
+  //     },
+  //     body: JSON.stringify(),
+  //   })
+  //     .then((res) => res.json(registerForm))
+  //     // .then((data) => setIsPosting(false) && router.push("/login"));
+  //     .then((data) => setIsPosting(false));
+  // };
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append("file", data.file[0]);
+    formData.append("Email", inputs.Email);
+    formData.append("Username", inputs.Username);
+    formData.append("Name", inputs.Name);
+    formData.append("Surname", inputs.Surname);
+    formData.append("Password", inputs.Password);
+
+    const res = await fetch("http://127.0.0.1:5000/register", {
       method: "POST",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify(),
-    })
-      .then((res) => res.json(registerForm))
-      // .then((data) => setIsPosting(false) && router.push("/login"));
-      .then((data) => setIsPosting(false));
+      body: formData,
+    }).then((res) => res.json());
+    res.Success ? router.push("/login") : setMessage(res.Message);
   };
-
   return (
     <Container className={styles.main}>
       <h2>Register</h2>
-      <Form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup floating>
           <Input id="Email" name="Email" placeholder="Email" type="email" onChange={handleChange} />
           <Label for="Email">Email</Label>
@@ -57,18 +79,19 @@ function Register() {
           <Label for="Password">Password</Label>
         </FormGroup>
         <Label>Upload Profile Picture</Label>
-        <div style={{ margin: "-5px -45px", scale: ".7" }}>
-          <DragDrop setImg={setImg} />
-        </div>
-
-        <div className="messageText">{message}</div>
-        <Row>
+        {/* <div style={{ margin: "-5px -45px", scale: ".7" }}>
+          <FileUploader type="file" {...register("file")} />
+        </div> */}
+        <input type="file" {...register("file")} />
+        {message && <div className="messageText">{message}</div>}
+        <Row className="m-4">
           <Col>{isPosting ? <Button>Submit</Button> : <Button disabled>Submit</Button>}</Col>
+          {/* <Col>{<Button>Submit</Button>}</Col> */}
           <Col>
             <Link href="login">Login</Link>
           </Col>
         </Row>
-      </Form>
+      </form>
     </Container>
   );
 }

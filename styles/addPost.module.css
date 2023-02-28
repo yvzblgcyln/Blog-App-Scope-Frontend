@@ -1,0 +1,37 @@
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  gap: 10px;
+}
+.form input,
+.form select,
+.form textarea {
+  padding: 3px 8px;
+}
+.form textarea {
+  height: 300px;
+}
+.form button {
+  border: none;
+  width: fit-content;
+  align-self: center;
+  padding: 10px;
+  border-radius: 8px;
+}
+.form a {
+  color: inherit;
+  align-self: center;
+}
+.btnArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}

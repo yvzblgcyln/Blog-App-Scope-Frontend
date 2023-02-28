@@ -6,6 +6,7 @@ import RichText from "@/components/RichText";
 import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "@/redux/postsSlice";
 import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
 
 function Add() {
   const accessToken = useSelector((state) => state.user.accessToken);
@@ -22,25 +23,40 @@ function Add() {
       : setInput({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   let postForm = { ...inputs, Body: post, file: img };
+  //   //dispatch(addPost(postForm));
 
+  //   const formData = new FormData();
+  //   formData.append("file", img);
+  //   formData.append("Body", post);
+  //   formData.append("CategoryId", inputs.CategoryId);
+  //   formData.append("Title", inputs.Title);
+
+  //   fetch(`${process.env.NEXT_PUBLIC_API_URL}/addPost`, {
+  //     method: "POST",
+  //     headers: { "x-access-token": accessToken },
+  //     body: formData,
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => router.push("/"));
+  // };
+  const { register, handleSubmit } = useForm();
+  const onSubmit = async (data) => {
     const formData = new FormData();
-    let postForm = { ...inputs, Body: post, file: img };
-    console.log(postForm);
-    formData.append('data', JSON.stringify(postForm))
+    formData.append("file", data.file[0]);
+    formData.append("Body", post);
+    formData.append("Title", inputs.Title);
+    formData.append("CategoryId", inputs.CategoryId);
 
-    dispatch(addPost(postForm));
-
-     fetch(`${process.env.NEXT_PUBLIC_API_URL}/addPost`, {
-       method: "POST",
-       headers: {
-         'Content-Type': 'multipart/form-data',
-         "x-access-token": accessToken,
-       },
-       body: JSON.stringify(formData),
-     }).then((res) => res.json());
-    //.then((data) => router.push("/"));
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/addPost`, {
+      method: "POST",
+      headers: { "x-access-token": accessToken },
+      body: formData,
+    }).then((res) => res.json());
+    res.MessageCode === "200" && router.push("/");
+    console.log(res);
   };
 
   return (
@@ -49,22 +65,24 @@ function Add() {
         <h2 style={{ margin: "30px" }}>Add post</h2>
         <Row>
           <Col xs="9">
-            <Form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-column">
               <FormGroup floating>
                 <Input id="Title" name="Title" placeholder="Title" type="text" onChange={handleChange} />
                 <Label for="Title">Title</Label>
               </FormGroup>
               <RichText post={post} setPost={setPost} />
-              <span>Upload an header image</span>
-              <div style={{ margin: "10px 0 20px 4px" }}>
+              {/* <textarea type="text" {...register("Body")} style={{ width: "100%", height: "250px" }} /> */}
+              <Label>Upload Header Picture:</Label>
+              {/* <div style={{ margin: "10px 0 20px 4px" }}>
                 <DragDrop setImg={setImg} />
-              </div>
+              </div> */}
+              <input type="file" {...register("file")} style={{ marginBottom: "15px" }} />
               <Row>
                 <Col>
-                  <Button>Submit</Button>
+                  <Button type="submit">Submit</Button>
                 </Col>
               </Row>
-            </Form>
+            </form>
           </Col>
           <Col xs="3">
             <h3>Category</h3>

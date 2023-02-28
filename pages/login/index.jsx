@@ -21,7 +21,8 @@ function Login() {
     e.preventDefault();
     Cookies.set("user", inputs.username);
     dispatch(setUser(Cookies.get("user")));
-    const encodedString = "basic " + btoa(inputs.username + ":" + inputs.password);
+    // const encodedString = "basic " + btoa(inputs.username + ":" + inputs.password);
+    const encodedString = "basic " + btoa("test@test.com" + ":" + "123456");
 
     const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
       headers: {
@@ -32,7 +33,7 @@ function Login() {
       .catch((error) => {
         console.log("error", error);
       });
-    if (data) {
+    if (data.MessageCode === "200") {
       console.log(data);
       dispatch(setAccessToken(data.Data));
       router.push("/");
@@ -56,7 +57,7 @@ function Login() {
             <Button>Submit</Button>
           </Col>
           <Col>
-            <Link href="register">Register</Link>
+            <Link href="register/">Register</Link>
           </Col>
         </Row>
       </Form>

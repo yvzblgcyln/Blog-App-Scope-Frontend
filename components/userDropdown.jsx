@@ -5,15 +5,20 @@ import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/userSlice";
 import Cookies from "js-cookie";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 function UserDropdown({ user, direction, ...args }) {
+  const router = useRouter();
+  const dispatch = useDispatch();
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
-  const dispatch = useDispatch();
   const handleLogout = () => {
     Cookies.remove("user");
     dispatch(setUser(""));
+    router.push("/login");
   };
 
   return (

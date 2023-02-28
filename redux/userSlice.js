@@ -5,7 +5,7 @@ export const userSlice = createSlice({
   initialState: {
     active: "",
     accessToken:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwiZXhwIjoxNjc3NTE5NzYxfQ.LRD7eu5iotuDkm6eZTZ1YtNyIE-6WvMtgdgRYHV0Zds",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwiZXhwIjoxNjc3NTg5MzY1fQ.9IcuEiLNtZA75mcA0fGjWxR18wwKrA30nLTIk4qT3c8",
   },
   reducers: {
     setUser: (state, action) => {
@@ -13,7 +13,6 @@ export const userSlice = createSlice({
     },
     setAccessToken: (state, action) => {
       state.accessToken = action.payload;
-      console.log(action.payload);
     },
   },
 });

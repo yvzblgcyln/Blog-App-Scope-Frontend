@@ -10,7 +10,7 @@ export const fetchData = createAsyncThunk("fetchData", async (test) => {
 
 export const postsSlice = createSlice({
   name: "posts",
-  initialState: { posts: [], page: 0, pageCount: 0 },
+  initialState: { posts: [], page: 0, pageCount: 0, postIndex: 0, postId: 0 },
   reducers: {
     setPosts: (state, { payload }) => {
       state.posts = payload.Data;
@@ -19,11 +19,17 @@ export const postsSlice = createSlice({
       state.posts.push(payload);
     },
     removePost: (state, action) => {
-      state.posts.filter((Id) => Id !== action.payload);
+      state.posts.splice(action.payload, 1);
     },
     updatePost: (state, action) => {
-      state.posts.splice(action.payload.id, 1);
-      state.posts.splice(action.payload.id, 1, action.payload.updatedPost);
+      console.log(action);
+      state.posts[action.payload.postIndex] = action.payload.updatedPost;
+    },
+    setPostIndex: (state, { payload }) => {
+      state.postIndex = payload;
+    },
+    setPostId: (state, { payload }) => {
+      state.postId = payload;
     },
   },
   extraReducers: (builder) => {
@@ -34,5 +40,5 @@ export const postsSlice = createSlice({
   },
 });
 
-export const { setPosts, addPost, removePost, updatePost } = postsSlice.actions;
+export const { setPostId, setPosts, addPost, removePost, updatePost, setPostIndex } = postsSlice.actions;
 export default postsSlice.reducer;

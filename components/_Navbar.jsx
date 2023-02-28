@@ -27,7 +27,6 @@ function _Navbar({ category }) {
   useEffect(() => {
     dispatch(setUser(Cookies.get("user") || ""));
     dispatch(setAccessToken(Cookies.get("accessToken") || ""));
-    console.log(accessToken);
   }, []);
 
   useEffect(() => {}, [filter]);

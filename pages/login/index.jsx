@@ -20,10 +20,10 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     Cookies.set("user", inputs.username);
-    dispatch(setUser(Cookies.get("user")));
-    // const encodedString = "basic " + btoa(inputs.username + ":" + inputs.password);
-    const encodedString = "basic " + btoa("test@test.com" + ":" + "123456");
-
+    let username = Cookies.get("user").split("@");
+    dispatch(setUser(username[0]));
+    const encodedString = "basic " + btoa(inputs.username + ":" + inputs.password);
+    //const encodedString = "basic " + btoa("test@test.com" + ":" + "123456");
     const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
       headers: {
         Authorization: encodedString,
@@ -34,7 +34,6 @@ function Login() {
         console.log("error", error);
       });
     if (data.MessageCode === "200") {
-      console.log(data);
       dispatch(setAccessToken(data.Data));
       Cookies.set("accessToken", data.Data);
       router.push("/");

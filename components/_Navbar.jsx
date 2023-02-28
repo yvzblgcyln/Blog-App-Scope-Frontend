@@ -3,14 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, Badge } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { setFilter } from "../redux/categorySlice";
-import { setUser } from "@/redux/userSlice";
+import { setAccessToken, setUser } from "@/redux/userSlice";
 import UserDropdown from "@/components/userDropdown";
 import Cookies from "js-cookie";
 
 export const getStaticProps = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getCategories`);
   const data = await res.json();
-  console.log(data);
   return {
     props: { category: data },
   };
@@ -20,12 +19,15 @@ function _Navbar({ category }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
+  const accessToken = useSelector((state) => state.user.accessToken);
   const filter = useSelector((state) => state.category.filter);
   const user = useSelector((state) => state.user.active);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setUser(Cookies.get("user") || ""));
+    dispatch(setAccessToken(Cookies.get("accessToken") || ""));
+    console.log(accessToken);
   }, []);
 
   useEffect(() => {}, [filter]);

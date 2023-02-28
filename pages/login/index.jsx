@@ -36,6 +36,7 @@ function Login() {
     if (data.MessageCode === "200") {
       console.log(data);
       dispatch(setAccessToken(data.Data));
+      Cookies.set("accessToken", data.Data);
       router.push("/");
     }
   };
